@@ -1,0 +1,2199 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="DeepRiver is a Python library for incremental deep learning.">
+      
+      
+        <meta name="author" content="Cedric Kulbach">
+      
+      
+        <link rel="canonical" href="https://github.com/kulbachcedric/DeepRiver/anomaly/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.11">
+    
+    
+      
+        <title>Anomaly - Deep River</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.50e68009.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#2094f3">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="blue" data-md-color-accent="grey">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#anomaly-detection" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Deep River" class="md-header__button md-logo" aria-label="Deep River" data-md-component="logo">
+      
+  <img src="../img/logo_square.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Deep River
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Anomaly
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/online-ml/river-torch/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    river-torch
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Deep River" class="md-nav__button md-logo" aria-label="Deep River" data-md-component="logo">
+      
+  <img src="../img/logo_square.png" alt="logo">
+
+    </a>
+    Deep River
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/online-ml/river-torch/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    river-torch
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Code Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Code Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../classification/" class="md-nav__link">
+        Classification
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../regression/" class="md-nav__link">
+        Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Anomaly
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Anomaly
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly" class="md-nav__link">
+    river_torch.anomaly.anomaly
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.NoDropoutAE" class="md-nav__link">
+    NoDropoutAE
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder" class="md-nav__link">
+    ProbabilityWeightedAutoencoder
+  </a>
+  
+    <nav class="md-nav" aria-label="ProbabilityWeightedAutoencoder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder.learn_one" class="md-nav__link">
+    learn_one()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.RollingWindowAutoencoder" class="md-nav__link">
+    RollingWindowAutoencoder
+  </a>
+  
+    <nav class="md-nav" aria-label="RollingWindowAutoencoder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.RollingWindowAutoencoder.learn_one" class="md-nav__link">
+    learn_one()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.VariationalAutoencoder" class="md-nav__link">
+    VariationalAutoencoder
+  </a>
+  
+    <nav class="md-nav" aria-label="VariationalAutoencoder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.VariationalAutoencoder.learn_one" class="md-nav__link">
+    learn_one()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.VariationalAutoencoder.score_one" class="md-nav__link">
+    score_one()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/example_classification/" class="md-nav__link">
+        Classification
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/example_regression/" class="md-nav__link">
+        Bike-sharing forecasting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/example_ae/" class="md-nav__link">
+        Anomaly Detection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly" class="md-nav__link">
+    river_torch.anomaly.anomaly
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.NoDropoutAE" class="md-nav__link">
+    NoDropoutAE
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder" class="md-nav__link">
+    ProbabilityWeightedAutoencoder
+  </a>
+  
+    <nav class="md-nav" aria-label="ProbabilityWeightedAutoencoder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder.learn_one" class="md-nav__link">
+    learn_one()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.RollingWindowAutoencoder" class="md-nav__link">
+    RollingWindowAutoencoder
+  </a>
+  
+    <nav class="md-nav" aria-label="RollingWindowAutoencoder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.RollingWindowAutoencoder.learn_one" class="md-nav__link">
+    learn_one()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.VariationalAutoencoder" class="md-nav__link">
+    VariationalAutoencoder
+  </a>
+  
+    <nav class="md-nav" aria-label="VariationalAutoencoder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.VariationalAutoencoder.learn_one" class="md-nav__link">
+    learn_one()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#river_torch.anomaly.anomaly.VariationalAutoencoder.score_one" class="md-nav__link">
+    score_one()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/online-ml/river-torch/anomaly.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+<h1 id="anomaly-detection">Anomaly Detection<a class="headerlink" href="#anomaly-detection" title="Permanent link">&para;</a></h1>
+
+
+  <div class="doc doc-object doc-module">
+
+<a id="river_torch.anomaly.anomaly"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="river_torch.anomaly.anomaly.NoDropoutAE" class="doc doc-heading">
+        <code>
+NoDropoutAE            (<span title="river_torch.base.AutoencodedAnomalyDetector">AutoencodedAnomalyDetector</span>)
+        </code>
+
+
+
+<a href="#river_torch.anomaly.anomaly.NoDropoutAE" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <h4 id="river_torch.anomaly.anomaly.NoDropoutAE--no-dropout-auto-encoder">No dropout auto encoder<a class="headerlink" href="#river_torch.anomaly.anomaly.NoDropoutAE--no-dropout-auto-encoder" title="Permanent link">&para;</a></h4>
+<p>encoder_fn
+decoder_fn
+loss_fn
+optimizer_fn
+device
+skip_threshold
+scale_scores
+window_size
+net_params</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/anomaly.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">NoDropoutAE</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">AutoencodedAnomalyDetector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    No dropout auto encoder</span>
+<span class="sd">    ----------</span>
+<span class="sd">    encoder_fn</span>
+<span class="sd">    decoder_fn</span>
+<span class="sd">    loss_fn</span>
+<span class="sd">    optimizer_fn</span>
+<span class="sd">    device</span>
+<span class="sd">    skip_threshold</span>
+<span class="sd">    scale_scores</span>
+<span class="sd">    window_size</span>
+<span class="sd">    net_params</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">score_learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">dict2tensor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_init</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init_net</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">x_rec</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">x_rec</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="n">score</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_scores</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stat_meter</span><span class="o">.</span><span class="n">mean</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">score</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stat_meter</span><span class="o">.</span><span class="n">mean</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">stat_meter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">score</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder" class="doc doc-heading">
+        <code>
+ProbabilityWeightedAutoencoder            (<span title="river_torch.base.AutoencodedAnomalyDetector">AutoencodedAnomalyDetector</span>)
+        </code>
+
+
+
+<a href="#river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <h4 id="river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder--a-propability-weighted-auto-encoder">A propability weighted auto encoder<a class="headerlink" href="#river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder--a-propability-weighted-auto-encoder" title="Permanent link">&para;</a></h4>
+<p>encoder_fn
+decoder_fn
+loss_fn
+optimizer_f
+device
+skip_threshold
+scale_scores
+window_size
+net_params</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/anomaly.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ProbabilityWeightedAutoencoder</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">AutoencodedAnomalyDetector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A propability weighted auto encoder</span>
+<span class="sd">    ----------</span>
+<span class="sd">    encoder_fn</span>
+<span class="sd">    decoder_fn</span>
+<span class="sd">    loss_fn</span>
+<span class="sd">    optimizer_f</span>
+<span class="sd">    device</span>
+<span class="sd">    skip_threshold</span>
+<span class="sd">    scale_scores</span>
+<span class="sd">    window_size</span>
+<span class="sd">    net_params</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">encoder_fn</span><span class="p">,</span>
+        <span class="n">decoder_fn</span><span class="p">,</span>
+        <span class="n">loss_fn</span><span class="o">=</span><span class="s2">&quot;smooth_mae&quot;</span><span class="p">,</span>
+        <span class="n">optimizer_fn</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sgd&quot;</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
+        <span class="n">skip_threshold</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+        <span class="n">scale_scores</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">window_size</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">net_params</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">encoder_fn</span><span class="o">=</span><span class="n">encoder_fn</span><span class="p">,</span>
+            <span class="n">decoder_fn</span><span class="o">=</span><span class="n">decoder_fn</span><span class="p">,</span>
+            <span class="n">loss_fn</span><span class="o">=</span><span class="n">loss_fn</span><span class="p">,</span>
+            <span class="n">optimizer_fn</span><span class="o">=</span><span class="n">optimizer_fn</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+            <span class="n">scale_scores</span><span class="o">=</span><span class="n">scale_scores</span><span class="p">,</span>
+            <span class="n">window_size</span><span class="o">=</span><span class="n">window_size</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">net_params</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip_threshold</span> <span class="o">=</span> <span class="n">skip_threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_meter</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">RollingVar</span><span class="p">(</span><span class="n">window_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean_meter</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">RollingMean</span><span class="p">(</span><span class="n">window_size</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">dict2tensor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_init</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init_net</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="n">x_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">x_pred</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">loss_item</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_meter</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_meter</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_meter</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean_meter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">loss_item</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_meter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">loss_item</span><span class="p">)</span>
+
+        <span class="n">loss_scaled</span> <span class="o">=</span> <span class="p">(</span><span class="n">loss_item</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="n">ndtr</span><span class="p">(</span><span class="n">loss_scaled</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">skip_threshold</span> <span class="o">-</span> <span class="n">prob</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_threshold</span> <span class="o">*</span> <span class="n">loss</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder.learn_one" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code>
+
+
+<a href="#river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder.learn_one" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Update the model.</p>
+<h5 id="river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder.learn_one--parameters">Parameters<a class="headerlink" href="#river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder.learn_one--parameters" title="Permanent link">&para;</a></h5>
+<p>x
+    A dictionary of features.</p>
+<h5 id="river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder.learn_one--returns">Returns<a class="headerlink" href="#river_torch.anomaly.anomaly.ProbabilityWeightedAutoencoder.learn_one--returns" title="Permanent link">&para;</a></h5>
+<p>self</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/anomaly.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">dict2tensor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_init</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_net</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="n">x_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">x_pred</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">loss_item</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_meter</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_meter</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_meter</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">mean_meter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">loss_item</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">var_meter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">loss_item</span><span class="p">)</span>
+
+    <span class="n">loss_scaled</span> <span class="o">=</span> <span class="p">(</span><span class="n">loss_item</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="n">ndtr</span><span class="p">(</span><span class="n">loss_scaled</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">skip_threshold</span> <span class="o">-</span> <span class="n">prob</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_threshold</span> <span class="o">*</span> <span class="n">loss</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="river_torch.anomaly.anomaly.RollingWindowAutoencoder" class="doc doc-heading">
+        <code>
+RollingWindowAutoencoder            (<span title="river_torch.base.AutoencodedAnomalyDetector">AutoencodedAnomalyDetector</span>)
+        </code>
+
+
+
+<a href="#river_torch.anomaly.anomaly.RollingWindowAutoencoder" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <h4 id="river_torch.anomaly.anomaly.RollingWindowAutoencoder--a-rolling-window-auto-encoder">A rolling window auto encoder<a class="headerlink" href="#river_torch.anomaly.anomaly.RollingWindowAutoencoder--a-rolling-window-auto-encoder" title="Permanent link">&para;</a></h4>
+<p>encoder_fn
+decoder_fn
+loss_fn
+optimizer_fn
+device
+skip_threshold
+scale_scores
+window_size
+net_params</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/anomaly.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RollingWindowAutoencoder</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">AutoencodedAnomalyDetector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A rolling window auto encoder</span>
+<span class="sd">    ----------</span>
+<span class="sd">    encoder_fn</span>
+<span class="sd">    decoder_fn</span>
+<span class="sd">    loss_fn</span>
+<span class="sd">    optimizer_fn</span>
+<span class="sd">    device</span>
+<span class="sd">    skip_threshold</span>
+<span class="sd">    scale_scores</span>
+<span class="sd">    window_size</span>
+<span class="sd">    net_params</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">encoder_fn</span><span class="p">,</span>
+        <span class="n">decoder_fn</span><span class="p">,</span>
+        <span class="n">loss_fn</span><span class="o">=</span><span class="s2">&quot;smooth_mae&quot;</span><span class="p">,</span>
+        <span class="n">optimizer_fn</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sgd&quot;</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
+        <span class="n">window_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">net_params</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">encoder_fn</span><span class="o">=</span><span class="n">encoder_fn</span><span class="p">,</span>
+            <span class="n">decoder_fn</span><span class="o">=</span><span class="n">decoder_fn</span><span class="p">,</span>
+            <span class="n">loss_fn</span><span class="o">=</span><span class="n">loss_fn</span><span class="p">,</span>
+            <span class="n">optimizer_fn</span><span class="o">=</span><span class="n">optimizer_fn</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">net_params</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span> <span class="o">=</span> <span class="n">window_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_x_window</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="n">window_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_batch_i</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">_learn_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+
+        <span class="n">x_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">x_pred</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">dict2tensor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_x_window</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_init</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init_net</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_window</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_window</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_learn_batch</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="river_torch.anomaly.anomaly.RollingWindowAutoencoder.learn_one" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code>
+
+
+<a href="#river_torch.anomaly.anomaly.RollingWindowAutoencoder.learn_one" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Update the model.</p>
+<h5 id="river_torch.anomaly.anomaly.RollingWindowAutoencoder.learn_one--parameters">Parameters<a class="headerlink" href="#river_torch.anomaly.anomaly.RollingWindowAutoencoder.learn_one--parameters" title="Permanent link">&para;</a></h5>
+<p>x
+    A dictionary of features.</p>
+<h5 id="river_torch.anomaly.anomaly.RollingWindowAutoencoder.learn_one--returns">Returns<a class="headerlink" href="#river_torch.anomaly.anomaly.RollingWindowAutoencoder.learn_one--returns" title="Permanent link">&para;</a></h5>
+<p>self</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/anomaly.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">dict2tensor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_x_window</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_init</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_net</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_window</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_x_window</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_learn_batch</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="river_torch.anomaly.anomaly.VariationalAutoencoder" class="doc doc-heading">
+        <code>
+VariationalAutoencoder            (<span title="river_torch.base.AutoencodedAnomalyDetector">AutoencodedAnomalyDetector</span>)
+        </code>
+
+
+
+<a href="#river_torch.anomaly.anomaly.VariationalAutoencoder" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <h4 id="river_torch.anomaly.anomaly.VariationalAutoencoder--a-propability-weighted-auto-encoder">A propability weighted auto encoder<a class="headerlink" href="#river_torch.anomaly.anomaly.VariationalAutoencoder--a-propability-weighted-auto-encoder" title="Permanent link">&para;</a></h4>
+<p>encoder_fn
+decoder_fn
+loss_fn
+optimizer_fn
+device
+skip_threshold
+scale_scores
+window_size
+net_params</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/anomaly.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">VariationalAutoencoder</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">AutoencodedAnomalyDetector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A propability weighted auto encoder</span>
+<span class="sd">    ----------</span>
+<span class="sd">    encoder_fn</span>
+<span class="sd">    decoder_fn</span>
+<span class="sd">    loss_fn</span>
+<span class="sd">    optimizer_fn</span>
+<span class="sd">    device</span>
+<span class="sd">    skip_threshold</span>
+<span class="sd">    scale_scores</span>
+<span class="sd">    window_size</span>
+<span class="sd">    net_params</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">encoder_fn</span><span class="p">,</span>
+        <span class="n">decoder_fn</span><span class="p">,</span>
+        <span class="n">loss_fn</span><span class="o">=</span><span class="s2">&quot;smooth_mae&quot;</span><span class="p">,</span>
+        <span class="n">optimizer_fn</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sgd&quot;</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
+        <span class="n">n_reconstructions</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">scale_scores</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">net_params</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">net_params</span><span class="p">[</span><span class="s2">&quot;variational&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">net_params</span><span class="p">[</span><span class="s2">&quot;dropout&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">net_params</span><span class="p">[</span><span class="s2">&quot;tied_decoder_weights&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">encoder_fn</span><span class="o">=</span><span class="n">encoder_fn</span><span class="p">,</span>
+            <span class="n">decoder_fn</span><span class="o">=</span><span class="n">decoder_fn</span><span class="p">,</span>
+            <span class="n">loss_fn</span><span class="o">=</span><span class="n">loss_fn</span><span class="p">,</span>
+            <span class="n">optimizer_fn</span><span class="o">=</span><span class="n">optimizer_fn</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+            <span class="n">scale_scores</span><span class="o">=</span><span class="n">scale_scores</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">net_params</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_reconstructions</span> <span class="o">=</span> <span class="n">n_reconstructions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>
+
+    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">encoded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span> <span class="o">=</span> <span class="n">encoded</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">encoded</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">log_var</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">log_var</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span>
+
+    <span class="k">def</span> <span class="nf">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span><span class="p">,</span> <span class="n">n_reconstructions</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="n">n_reconstructions</span><span class="p">,</span> <span class="o">*</span><span class="n">log_var</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_var</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">eps</span>
+        <span class="n">decoded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoder</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">decoded</span>
+
+    <span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_learn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_learn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">dict2tensor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_init</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init_net</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">reconstructed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span><span class="p">)</span>
+        <span class="n">reconstructed</span> <span class="o">=</span> <span class="n">reconstructed</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">latent_loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+            <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">log_var</span> <span class="o">-</span> <span class="n">mu</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">log_var</span><span class="o">.</span><span class="n">exp</span><span class="p">(),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="n">reconstruction_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">reconstructed</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">total_loss</span> <span class="o">=</span> <span class="n">reconstruction_loss</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">*</span> <span class="n">latent_loss</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">learn_one</span><span class="p">(</span><span class="n">reconstruction_loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">total_loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">score_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">dict2tensor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_init</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init_net</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">inference_mode</span><span class="p">():</span>
+            <span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">reconstructed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_reconstructions</span><span class="p">)</span>
+
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span>
+            <span class="n">reconstructed</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">repeat</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_reconstructions</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">dim</span><span class="p">()))</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">mean</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">loss</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">mean</span>
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="k">def</span> <span class="nf">score_learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">dict2tensor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_init</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init_net</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">reconstructed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_reconstructions</span><span class="p">)</span>
+
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span>
+            <span class="n">reconstructed</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">repeat</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_reconstructions</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">dim</span><span class="p">()))</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stat_meter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">stat_meter</span><span class="o">.</span><span class="n">mean</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">loss</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stat_meter</span><span class="o">.</span><span class="n">mean</span>
+        <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">learn_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">learn_many</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">score_many</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">score_many</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="river_torch.anomaly.anomaly.VariationalAutoencoder.learn_one" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code>
+
+
+<a href="#river_torch.anomaly.anomaly.VariationalAutoencoder.learn_one" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Update the model.</p>
+<h5 id="river_torch.anomaly.anomaly.VariationalAutoencoder.learn_one--parameters">Parameters<a class="headerlink" href="#river_torch.anomaly.anomaly.VariationalAutoencoder.learn_one--parameters" title="Permanent link">&para;</a></h5>
+<p>x
+    A dictionary of features.</p>
+<h5 id="river_torch.anomaly.anomaly.VariationalAutoencoder.learn_one--returns">Returns<a class="headerlink" href="#river_torch.anomaly.anomaly.VariationalAutoencoder.learn_one--returns" title="Permanent link">&para;</a></h5>
+<p>self</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/anomaly.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_learn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="river_torch.anomaly.anomaly.VariationalAutoencoder.score_one" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">score_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code>
+
+
+<a href="#river_torch.anomaly.anomaly.VariationalAutoencoder.score_one" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Return an outlier score.</p>
+<p>A high score is indicative of an anomaly. A low score corresponds a normal observation.</p>
+<h5 id="river_torch.anomaly.anomaly.VariationalAutoencoder.score_one--parameters">Parameters<a class="headerlink" href="#river_torch.anomaly.anomaly.VariationalAutoencoder.score_one--parameters" title="Permanent link">&para;</a></h5>
+<p>x
+    A dictionary of features.</p>
+<h5 id="river_torch.anomaly.anomaly.VariationalAutoencoder.score_one--returns">Returns<a class="headerlink" href="#river_torch.anomaly.anomaly.VariationalAutoencoder.score_one--returns" title="Permanent link">&para;</a></h5>
+<p>An anomaly score. A high score is indicative of an anomaly. A low score corresponds a
+normal observation.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/anomaly.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">score_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">dict2tensor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_init</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_net</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">inference_mode</span><span class="p">():</span>
+        <span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">reconstructed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">log_var</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_reconstructions</span><span class="p">)</span>
+
+    <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span>
+        <span class="n">reconstructed</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">repeat</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">n_reconstructions</span><span class="p">,</span> <span class="o">*</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">dim</span><span class="p">()))</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">mean</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">loss</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaler</span><span class="o">.</span><span class="n">mean</span>
+    <span class="k">return</span> <span class="n">loss</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+<h1 id="postprocessing">Postprocessing<a class="headerlink" href="#postprocessing" title="Permanent link">&para;</a></h1>
+
+
+  <div class="doc doc-object doc-module">
+
+<a id="river_torch.anomaly.postprocessing"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="river_torch.anomaly.postprocessing.ExponentialMeanScaler" class="doc doc-heading">
+        <code>
+ExponentialMeanScaler            (<a class="autorefs autorefs-internal" title="river_torch.anomaly.postprocessing.ExponentialStandardizer" href="#river_torch.anomaly.postprocessing.ExponentialStandardizer">ExponentialStandardizer</a>)
+        </code>
+
+
+
+<a href="#river_torch.anomaly.postprocessing.ExponentialMeanScaler" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <h4 id="river_torch.anomaly.postprocessing.ExponentialMeanScaler--an-exponential-mean-scaler">An exponential mean scaler<a class="headerlink" href="#river_torch.anomaly.postprocessing.ExponentialMeanScaler--an-exponential-mean-scaler" title="Permanent link">&para;</a></h4>
+<p>momentum</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ExponentialMeanScaler</span><span class="p">(</span><span class="n">ExponentialStandardizer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An exponential mean scaler</span>
+<span class="sd">    ----------</span>
+<span class="sd">    momentum</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.99</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">momentum</span><span class="o">=</span><span class="n">momentum</span><span class="p">,</span> <span class="n">with_std</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x_centered</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">x</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="k">return</span> <span class="n">x_centered</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="river_torch.anomaly.postprocessing.ExponentialMeanScaler.transform_one" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code>
+
+
+<a href="#river_torch.anomaly.postprocessing.ExponentialMeanScaler.transform_one" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Transform a set of features <code>x</code>.</p>
+<h5 id="river_torch.anomaly.postprocessing.ExponentialMeanScaler.transform_one--parameters">Parameters<a class="headerlink" href="#river_torch.anomaly.postprocessing.ExponentialMeanScaler.transform_one--parameters" title="Permanent link">&para;</a></h5>
+<p>x
+    A dictionary of features.</p>
+<h5 id="river_torch.anomaly.postprocessing.ExponentialMeanScaler.transform_one--returns">Returns<a class="headerlink" href="#river_torch.anomaly.postprocessing.ExponentialMeanScaler.transform_one--returns" title="Permanent link">&para;</a></h5>
+<p>The transformed values.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x_centered</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">x</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+    <span class="k">return</span> <span class="n">x_centered</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="river_torch.anomaly.postprocessing.ExponentialStandardizer" class="doc doc-heading">
+        <code>
+ExponentialStandardizer            (<span title="river.base.transformer.Transformer">Transformer</span>)
+        </code>
+
+
+
+<a href="#river_torch.anomaly.postprocessing.ExponentialStandardizer" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <h4 id="river_torch.anomaly.postprocessing.ExponentialStandardizer--an-exponential-standard-scaler">An exponential standard scaler<a class="headerlink" href="#river_torch.anomaly.postprocessing.ExponentialStandardizer--an-exponential-standard-scaler" title="Permanent link">&para;</a></h4>
+<p>momentum</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ExponentialStandardizer</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Transformer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An exponential standard scaler</span>
+<span class="sd">    ----------</span>
+<span class="sd">    momentum</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">with_std</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">with_std</span> <span class="o">=</span> <span class="n">with_std</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span> <span class="o">=</span> <span class="n">momentum</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">last_diff</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span><span class="p">)</span> <span class="o">*</span> <span class="n">last_diff</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_std</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span> <span class="o">*</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span><span class="p">)</span> <span class="o">*</span> <span class="n">last_diff</span><span class="o">**</span><span class="mi">2</span>
+                <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x_centered</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_std</span><span class="p">:</span>
+            <span class="n">x_standardized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">x_centered</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="o">**</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x_standardized</span> <span class="o">=</span> <span class="n">x_centered</span>
+        <span class="k">return</span> <span class="n">x_standardized</span>
+
+    <span class="k">def</span> <span class="nf">learn_transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learn_one</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_one</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="river_torch.anomaly.postprocessing.ExponentialStandardizer.learn_one" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code>
+
+
+<a href="#river_torch.anomaly.postprocessing.ExponentialStandardizer.learn_one" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Update with a set of features <code>x</code>.</p>
+<p>A lot of transformers don't actually have to do anything during the <code>learn_one</code> step
+because they are stateless. For this reason the default behavior of this function is to do
+nothing. Transformers that however do something during the <code>learn_one</code> can override this
+method.</p>
+<h5 id="river_torch.anomaly.postprocessing.ExponentialStandardizer.learn_one--parameters">Parameters<a class="headerlink" href="#river_torch.anomaly.postprocessing.ExponentialStandardizer.learn_one--parameters" title="Permanent link">&para;</a></h5>
+<p>x
+    A dictionary of features.
+kwargs
+    Some models might allow/require providing extra parameters, such as sample weights.</p>
+<h5 id="river_torch.anomaly.postprocessing.ExponentialStandardizer.learn_one--returns">Returns<a class="headerlink" href="#river_torch.anomaly.postprocessing.ExponentialStandardizer.learn_one--returns" title="Permanent link">&para;</a></h5>
+<p>self</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">last_diff</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span><span class="p">)</span> <span class="o">*</span> <span class="n">last_diff</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_std</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span> <span class="o">*</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span><span class="p">)</span> <span class="o">*</span> <span class="n">last_diff</span><span class="o">**</span><span class="mi">2</span>
+            <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="river_torch.anomaly.postprocessing.ExponentialStandardizer.transform_one" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code>
+
+
+<a href="#river_torch.anomaly.postprocessing.ExponentialStandardizer.transform_one" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Transform a set of features <code>x</code>.</p>
+<h5 id="river_torch.anomaly.postprocessing.ExponentialStandardizer.transform_one--parameters">Parameters<a class="headerlink" href="#river_torch.anomaly.postprocessing.ExponentialStandardizer.transform_one--parameters" title="Permanent link">&para;</a></h5>
+<p>x
+    A dictionary of features.</p>
+<h5 id="river_torch.anomaly.postprocessing.ExponentialStandardizer.transform_one--returns">Returns<a class="headerlink" href="#river_torch.anomaly.postprocessing.ExponentialStandardizer.transform_one--returns" title="Permanent link">&para;</a></h5>
+<p>The transformed values.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x_centered</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_std</span><span class="p">:</span>
+        <span class="n">x_standardized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">x_centered</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="o">**</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x_standardized</span> <span class="o">=</span> <span class="n">x_centered</span>
+    <span class="k">return</span> <span class="n">x_standardized</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="river_torch.anomaly.postprocessing.WindowedMeanScaler" class="doc doc-heading">
+        <code>
+WindowedMeanScaler            (<span title="river.base.transformer.Transformer">Transformer</span>)
+        </code>
+
+
+
+<a href="#river_torch.anomaly.postprocessing.WindowedMeanScaler" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <h4 id="river_torch.anomaly.postprocessing.WindowedMeanScaler--an-windowed-mean-scaler">An windowed mean scaler<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedMeanScaler--an-windowed-mean-scaler" title="Permanent link">&para;</a></h4>
+<p>windows_size</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">WindowedMeanScaler</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Transformer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An windowed mean scaler</span>
+<span class="sd">    ----------</span>
+<span class="sd">    windows_size</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="n">window_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span> <span class="o">=</span> <span class="n">window_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_old</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">x</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+
+    <span class="k">def</span> <span class="nf">learn_transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learn_one</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_one</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="river_torch.anomaly.postprocessing.WindowedMeanScaler.learn_one" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code>
+
+
+<a href="#river_torch.anomaly.postprocessing.WindowedMeanScaler.learn_one" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Update with a set of features <code>x</code>.</p>
+<p>A lot of transformers don't actually have to do anything during the <code>learn_one</code> step
+because they are stateless. For this reason the default behavior of this function is to do
+nothing. Transformers that however do something during the <code>learn_one</code> can override this
+method.</p>
+<h5 id="river_torch.anomaly.postprocessing.WindowedMeanScaler.learn_one--parameters">Parameters<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedMeanScaler.learn_one--parameters" title="Permanent link">&para;</a></h5>
+<p>x
+    A dictionary of features.
+kwargs
+    Some models might allow/require providing extra parameters, such as sample weights.</p>
+<h5 id="river_torch.anomaly.postprocessing.WindowedMeanScaler.learn_one--returns">Returns<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedMeanScaler.learn_one--returns" title="Permanent link">&para;</a></h5>
+<p>self</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_old</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="river_torch.anomaly.postprocessing.WindowedMeanScaler.transform_one" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code>
+
+
+<a href="#river_torch.anomaly.postprocessing.WindowedMeanScaler.transform_one" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Transform a set of features <code>x</code>.</p>
+<h5 id="river_torch.anomaly.postprocessing.WindowedMeanScaler.transform_one--parameters">Parameters<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedMeanScaler.transform_one--parameters" title="Permanent link">&para;</a></h5>
+<p>x
+    A dictionary of features.</p>
+<h5 id="river_torch.anomaly.postprocessing.WindowedMeanScaler.transform_one--returns">Returns<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedMeanScaler.transform_one--returns" title="Permanent link">&para;</a></h5>
+<p>The transformed values.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">x</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="river_torch.anomaly.postprocessing.WindowedMinMaxScaler" class="doc doc-heading">
+        <code>
+WindowedMinMaxScaler            (<span title="river.base.transformer.Transformer">Transformer</span>)
+        </code>
+
+
+
+<a href="#river_torch.anomaly.postprocessing.WindowedMinMaxScaler" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <h4 id="river_torch.anomaly.postprocessing.WindowedMinMaxScaler--a-windowed-min-max-scaler">A windowed min max scaler<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedMinMaxScaler--a-windowed-min-max-scaler" title="Permanent link">&para;</a></h4>
+<p>window_size</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">WindowedMinMaxScaler</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Transformer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A windowed min max scaler</span>
+<span class="sd">    ----------</span>
+<span class="sd">    window_size</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="n">window_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span> <span class="o">=</span> <span class="n">window_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">Inf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">Inf</span>
+
+    <span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">x</span>
+
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="n">x</span>
+
+    <span class="k">def</span> <span class="nf">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span>
+        <span class="k">if</span> <span class="n">diff</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">/</span> <span class="n">diff</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">learn_transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learn_one</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_one</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="river_torch.anomaly.postprocessing.WindowedMinMaxScaler.learn_one" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code>
+
+
+<a href="#river_torch.anomaly.postprocessing.WindowedMinMaxScaler.learn_one" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Update with a set of features <code>x</code>.</p>
+<p>A lot of transformers don't actually have to do anything during the <code>learn_one</code> step
+because they are stateless. For this reason the default behavior of this function is to do
+nothing. Transformers that however do something during the <code>learn_one</code> can override this
+method.</p>
+<h5 id="river_torch.anomaly.postprocessing.WindowedMinMaxScaler.learn_one--parameters">Parameters<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedMinMaxScaler.learn_one--parameters" title="Permanent link">&para;</a></h5>
+<p>x
+    A dictionary of features.
+kwargs
+    Some models might allow/require providing extra parameters, such as sample weights.</p>
+<h5 id="river_torch.anomaly.postprocessing.WindowedMinMaxScaler.learn_one--returns">Returns<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedMinMaxScaler.learn_one--returns" title="Permanent link">&para;</a></h5>
+<p>self</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">x</span>
+
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="n">x</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="river_torch.anomaly.postprocessing.WindowedMinMaxScaler.transform_one" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code>
+
+
+<a href="#river_torch.anomaly.postprocessing.WindowedMinMaxScaler.transform_one" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Transform a set of features <code>x</code>.</p>
+<h5 id="river_torch.anomaly.postprocessing.WindowedMinMaxScaler.transform_one--parameters">Parameters<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedMinMaxScaler.transform_one--parameters" title="Permanent link">&para;</a></h5>
+<p>x
+    A dictionary of features.</p>
+<h5 id="river_torch.anomaly.postprocessing.WindowedMinMaxScaler.transform_one--returns">Returns<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedMinMaxScaler.transform_one--returns" title="Permanent link">&para;</a></h5>
+<p>The transformed values.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span>
+    <span class="k">if</span> <span class="n">diff</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">/</span> <span class="n">diff</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="river_torch.anomaly.postprocessing.WindowedStandardizer" class="doc doc-heading">
+        <code>
+WindowedStandardizer            (<span title="river.base.transformer.Transformer">Transformer</span>)
+        </code>
+
+
+
+<a href="#river_torch.anomaly.postprocessing.WindowedStandardizer" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <h4 id="river_torch.anomaly.postprocessing.WindowedStandardizer--a-windwoed-standardizer">A windwoed standardizer<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedStandardizer--a-windwoed-standardizer" title="Permanent link">&para;</a></h4>
+<p>window_size</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">WindowedStandardizer</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Transformer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A windwoed standardizer</span>
+<span class="sd">    ----------</span>
+<span class="sd">    window_size</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_size</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="n">window_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span> <span class="o">=</span> <span class="n">window_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dsquared</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">mean_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean_old</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dsquared</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean_old</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            <span class="n">mean_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_old</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dsquared</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_old</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">x_old</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">-</span> <span class="n">mean_old</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x_centered</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="n">x_standardized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">x_centered</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="o">**</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x_standardized</span>
+
+    <span class="k">def</span> <span class="nf">learn_transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learn_one</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_one</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">var</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dsquared</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="river_torch.anomaly.postprocessing.WindowedStandardizer.learn_one" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code>
+
+
+<a href="#river_torch.anomaly.postprocessing.WindowedStandardizer.learn_one" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Update with a set of features <code>x</code>.</p>
+<p>A lot of transformers don't actually have to do anything during the <code>learn_one</code> step
+because they are stateless. For this reason the default behavior of this function is to do
+nothing. Transformers that however do something during the <code>learn_one</code> can override this
+method.</p>
+<h5 id="river_torch.anomaly.postprocessing.WindowedStandardizer.learn_one--parameters">Parameters<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedStandardizer.learn_one--parameters" title="Permanent link">&para;</a></h5>
+<p>x
+    A dictionary of features.
+kwargs
+    Some models might allow/require providing extra parameters, such as sample weights.</p>
+<h5 id="river_torch.anomaly.postprocessing.WindowedStandardizer.learn_one--returns">Returns<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedStandardizer.learn_one--returns" title="Permanent link">&para;</a></h5>
+<p>self</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">learn_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">mean_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean_old</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dsquared</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean_old</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+        <span class="n">mean_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_old</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dsquared</span> <span class="o">+=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_old</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">x_old</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">-</span> <span class="n">mean_old</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="river_torch.anomaly.postprocessing.WindowedStandardizer.transform_one" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code>
+
+
+<a href="#river_torch.anomaly.postprocessing.WindowedStandardizer.transform_one" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Transform a set of features <code>x</code>.</p>
+<h5 id="river_torch.anomaly.postprocessing.WindowedStandardizer.transform_one--parameters">Parameters<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedStandardizer.transform_one--parameters" title="Permanent link">&para;</a></h5>
+<p>x
+    A dictionary of features.</p>
+<h5 id="river_torch.anomaly.postprocessing.WindowedStandardizer.transform_one--returns">Returns<a class="headerlink" href="#river_torch.anomaly.postprocessing.WindowedStandardizer.transform_one--returns" title="Permanent link">&para;</a></h5>
+<p>The transformed values.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>river_torch/anomaly/postprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">transform_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x_centered</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+    <span class="n">x_standardized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">x_centered</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="o">**</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x_standardized</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../regression/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Regression" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Regression
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../examples/example_classification/" class="md-footer__link md-footer__link--next" aria-label="Next: Classification" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Classification
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2019 - 2022
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+      
+      
+    
+    <a href="https://github.com/online-ml/river-torch" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.092fa1f6.min.js"}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a9542cf.min.js"></script>
+      
+    
+  </body>
+</html>
