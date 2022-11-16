@@ -11,8 +11,12 @@ from torch import nn
 
 from river_torch.base import DeepEstimator
 from river_torch.utils.hooks import ForwardOrderTracker, apply_hooks
-from river_torch.utils.tensor_conversion import (df2tensor, dict2tensor,
-                                                 labels2onehot, output2proba)
+from river_torch.utils.tensor_conversion import (
+    df2tensor,
+    dict2tensor,
+    labels2onehot,
+    output2proba,
+)
 
 
 class _TestModule(torch.nn.Module):
@@ -103,6 +107,7 @@ class Classifier(DeepEstimator, base.Classifier):
         optimizer_fn: Union[str, Callable] = "sgd",
         lr: float = 1e-3,
         output_is_logit: bool = True,
+        loss_reduction: str = "mean",
         is_class_incremental: bool = False,
         device: str = "cpu",
         seed: int = 42,
@@ -111,6 +116,7 @@ class Classifier(DeepEstimator, base.Classifier):
         self.observed_classes = OrderedSet()
         self.output_layer = None
         self.output_is_logit = output_is_logit
+        self.loss_reduction = loss_reduction
         self.is_class_incremental = is_class_incremental
         super().__init__(
             loss_fn=loss_fn,
@@ -196,7 +202,7 @@ class Classifier(DeepEstimator, base.Classifier):
         y = labels2onehot(
             y=y, classes=self.observed_classes, n_classes=n_classes, device=self.device
         )
-        loss = self.loss_fn(y_pred, y)
+        loss = self.loss_fn(y_pred, y, reduction=self.loss_reduction)
         loss.backward()
         self.optimizer.step()
         return self
