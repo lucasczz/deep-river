@@ -228,7 +228,7 @@ class Classifier(DeepEstimator, base.Classifier):
             y=y,
             classes=self.observed_classes,
             n_classes=n_classes,
-            device=self.device
+            device=self.device,
         )
         loss = self.loss_fn(y_pred, y, reduction=self.loss_reduction)
         loss.backward()
@@ -255,9 +255,9 @@ class Classifier(DeepEstimator, base.Classifier):
         x = dict2tensor(x, device=self.device)
         self.module.eval()
         y_pred = self.module(x)
-        return output2proba(y_pred,
-                            self.observed_classes,
-                            self.output_is_logit)
+        return output2proba(
+            y_pred, self.observed_classes, self.output_is_logit
+        )
 
     def learn_many(self, X: pd.DataFrame, y: List) -> "Classifier":
         """
@@ -328,12 +328,14 @@ class Classifier(DeepEstimator, base.Classifier):
         n_classes_to_add
             Number of output dimensions to add.
         """
-        new_weights = torch.mean(self.output_layer.weight,
-                                 dim=0).unsqueeze(1).T
+        new_weights = (
+            torch.mean(self.output_layer.weight, dim=0).unsqueeze(1).T
+        )
         if n_classes_to_add > 1:
             new_weights = (
                 new_weights.unsqueeze(1)
-                .T.repeat(1, n_classes_to_add, 1).squeeze()
+                .T.repeat(1, n_classes_to_add, 1)
+                .squeeze()
             )
         self.output_layer.weight = nn.parameter.Parameter(
             torch.cat([self.output_layer.weight, new_weights], axis=0)
@@ -342,15 +344,17 @@ class Classifier(DeepEstimator, base.Classifier):
         if self.output_layer.bias is not None:
             new_bias = torch.empty(n_classes_to_add)
             fan_in, _ = nn.init._calculate_fan_in_and_fan_out(
-                self.output_layer.weight)
+                self.output_layer.weight
+            )
             bound = 1 / math.sqrt(fan_in) if fan_in > 0 else 0
             nn.init.uniform_(new_bias, -bound, bound)
             self.output_layer.bias = nn.parameter.Parameter(
                 torch.cat([self.output_layer.bias, new_bias], axis=0)
             )
         self.output_layer.out_features += n_classes_to_add
-        self.optimizer = self.optimizer_fn(self.module.parameters(),
-                                           lr=self.lr)
+        self.optimizer = self.optimizer_fn(
+            self.module.parameters(), lr=self.lr
+        )
 
     def find_output_layer(self, n_features):
 
@@ -371,7 +375,7 @@ class Classifier(DeepEstimator, base.Classifier):
         else:
             warnings.warn(
                 "The model will not be able to adapt its output to new "
-                + "classes since no linear layer output layer was found."
+                "classes since no linear layer output layer was found."
             )
             self.is_class_incremental = False
 
