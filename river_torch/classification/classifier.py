@@ -136,7 +136,7 @@ class Classifier(DeepEstimator, base.Classifier):
         **kwargs,
     ):
         self.observed_classes = OrderedSet()
-        self.output_layer = None
+        self.output_layer: nn.Module
         self.output_is_logit = output_is_logit
         self.loss_reduction = loss_reduction
         self.is_class_incremental = is_class_incremental
