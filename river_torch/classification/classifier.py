@@ -149,8 +149,8 @@ class Classifier(DeepEstimator, base.Classifier):
         self.output_layer: nn.Module
         self.output_is_logit = output_is_logit
         self.is_class_incremental = is_class_incremental
+        self.loss_reduction = loss_reduction
         self._supported_output_layers = (nn.Linear,)
-
 
     @classmethod
     def _unit_test_params(cls):
@@ -191,9 +191,7 @@ class Classifier(DeepEstimator, base.Classifier):
             "check_predict_proba_one_binary",
         }
 
-    def _learn(
-        self, x: torch.Tensor, y: Union[ClfTarget, List[ClfTarget]]
-    ):
+    def _learn(self, x: torch.Tensor, y: Union[ClfTarget, List[ClfTarget]]):
         self.module.train()
         self.optimizer.zero_grad()
         y_pred = self.module(x)
@@ -239,6 +237,45 @@ class Classifier(DeepEstimator, base.Classifier):
 
         return self._learn(x=x_t, y=y)
 
+    def _forward(self, x_t: torch.Tensor):
+        if not self.module_initialized:
+            self.kwargs["n_features"] = x_t.shape[-1]
+            self.initialize_module(**self.kwargs)
+        self.module.eval()
+        with torch.inference_mode():
+            return self.module(x_t)
+
+    def predict_learn_one(self, x: dict, y: ClfTarget) -> ClfTarget:
+        """Predict and learn an example in a single step.
+
+        Parameters
+        ----------
+        x : dict
+            Input features.
+        y : ClfTarget
+            Input Label.
+
+        Returns
+        -------
+        ClfTarget
+            Predicted class.
+        """
+        if not self.module_initialized:
+            self.kwargs["n_features"] = len(x)
+            self.initialize_module(**self.kwargs)
+        x_t = dict2tensor(x, device=self.device)
+        self.module.eval()
+        with torch.inference_mode():
+            y_pred = self.module(x_t)
+
+        self.observed_classes.add(y)
+        if self.is_class_incremental:
+            self._adapt_output_dim()
+
+        self.module.train()
+        self._learn(x_t, y)
+        return y_pred
+
     def predict_proba_one(self, x: dict) -> Dict[ClfTarget, float]:
         """
         Predict the probability of each label given the input.
@@ -258,12 +295,15 @@ class Classifier(DeepEstimator, base.Classifier):
             self.initialize_module(**self.kwargs)
         x_t = dict2tensor(x, device=self.device)
         self.module.eval()
-        y_pred = self.module(x_t)
+        with torch.inference_mode():
+            y_pred = self.module(x_t)
         return output2proba(
             y_pred, self.observed_classes, self.output_is_logit
         )
 
-    def learn_many(self, X: pd.DataFrame, y: pd.Series) -> "Classifier":
+    def learn_many(
+        self, X: Union[pd.DataFrame, torch.Tensor], y: Union[pd.Series, list]
+    ) -> "Classifier":
         """
         Performs one step of training with a batch of examples.
 
@@ -283,13 +323,17 @@ class Classifier(DeepEstimator, base.Classifier):
         if not self.module_initialized:
             self.kwargs["n_features"] = len(X.columns)
             self.initialize_module(**self.kwargs)
-        X = df2tensor(X, device=self.device)
+        if isinstance(X, pd.DataFrame):
+            X = df2tensor(X, device=self.device)
 
         self.observed_classes.update(y)
         if self.is_class_incremental:
             self._adapt_output_dim()
 
-        return self._learn(x=X, y=y.tolist())
+        if isinstance(y, pd.Series):
+            y = y.tolist()
+
+        return self._learn(x=X, y=y)
 
     def predict_proba_many(self, X: pd.DataFrame) -> pd.DataFrame:
         """

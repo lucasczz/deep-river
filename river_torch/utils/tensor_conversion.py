@@ -129,7 +129,7 @@ def labels2onehot(
     """
     if n_classes is None:
         n_classes = len(classes)
-    if isinstance(y, pd.Series):
+    if isinstance(y, (list, pd.Series)):
         onehot = torch.zeros(len(y), n_classes, device=device, dtype=dtype)
         pos_idcs = [classes.index(y_i) for y_i in y]
         for i, pos_idx in enumerate(pos_idcs):
