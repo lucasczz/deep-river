@@ -53,7 +53,7 @@ class Classifier(DeepEstimator, base.Classifier):
             Loss function to be used for training the wrapped model. Can be a
             loss function provided by `torch.nn.functional` or one of the
             following: 'mse', 'l1', 'cross_entropy',
-            'binary_cross_entropy_with_logits', 'binary_crossentropy',
+            'binary_cross_entropy_with_logits', 'binary_cross_entropy',
             'smooth_l1', 'kl_div'.
         optimizer_fn
             Optimizer to be used for training the wrapped model.
@@ -274,7 +274,11 @@ class Classifier(DeepEstimator, base.Classifier):
 
         self.module.train()
         self._learn(x_t, y)
-        return y_pred
+
+        proba = output2proba(
+            y_pred, self.observed_classes, self.output_is_logit
+        )
+        return max(proba, key=proba.get)
 
     def predict_proba_one(self, x: dict) -> Dict[ClfTarget, float]:
         """
