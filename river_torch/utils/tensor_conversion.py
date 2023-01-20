@@ -137,7 +137,10 @@ def labels2onehot(
                 onehot[i, pos_idx] = 1
     else:
         onehot = torch.zeros(1, n_classes, device=device, dtype=dtype)
-        pos_idx = classes.index(y)
+        try:
+            pos_idx = classes.index(y)
+        except KeyError:
+            pos_idx = n_classes - 1
         if isinstance(pos_idx, int) and pos_idx < n_classes:
             onehot[0, pos_idx] = 1
 
